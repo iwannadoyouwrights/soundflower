@@ -1,0 +1,4 @@
+django 1.9
+Jinja2
+pillow
+django-registration

@@ -1,0 +1,110 @@
+{% extends 'main/base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static('main/user_profile_styles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="main_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    {% if petal.avatar %}
+                        <img src="/{{(petal.avatar.url)}}" class="img-thumbnail profile-avatar">
+                    {% endif %}
+                </div>
+                <div class="col-md-10">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h1>{{ petal.first_name }} {{ petal.second_name }} {{ petal.last_name }}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row description">
+                <div class="col-md-10 col-md-offset-2">
+                    <p>Дата рождения: {{ petal.birth_date }}</p>
+                    <p>Страна рождения: {{ petal.birth_country }}</p>
+                    <p>Родной город: {{ petal.birth_city }}</p>
+                    <p>Страна проживания: {{ petal.country_of_residence }} </p>
+                    <p>Город проживания: {{ petal.city_of_residence }} </p>
+                </div>
+            </div>
+            <div class="row feed">
+                <div class="col-md-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Projects</div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+
+                                {% for foo in petal.musician_set.all() %}
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            {% if foo.project.avatar %}
+
+                                                <div class="project-avatar col-md-6">
+                                                    <img src="/{{ foo.project.avatar.url }}"
+                                                         class="img-rounded project-avatar">
+                                                </div>
+                                            {% endif %}
+                                            <div class="project-description col-md-6">
+                                                <a href="
+
+                                                        {{ url('project', args=[foo.project.id]) }}">{{ foo.project }}</a><br>
+                                                <div> {{ foo.role }} </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Subscriptions</div>
+                        <div class="panel-body">
+                            <ul class=" subs list-group">
+                                {% for foo in petal.subscriptions.all() %}
+                                    <li class="list-group-item"><a href="{{ url('project', args=[foo.id]) }}">
+                                        {{ foo.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-10">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    NewsFeed
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group btn-group-xs">
+                                        <button type="button" class="btn btn-default">News</button>
+                                        <button type="button" class="btn btn-default">Music</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            {% for i in news %}
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <a href="{{ url('project', args=[i.project.id]) }}">{{ i.title }}</a>
+                                    </div>
+                                    <div class="panel-footer">{{ i.content }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

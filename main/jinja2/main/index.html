@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static('main/index_styles.css')}}"/>
+{% endblock %}
+{% block body %}
+<div class="container">
+    <h2>All petals here:</h2>
+    {% if all_petals %}
+    <ul>
+        {% for petal in all_petals %}
+        <li><a href="{{ url('petal_info', args=[petal.id]) }}">{{ petal.username }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h3>There is no petals</h3>
+    {% endif %}
+</div>
+{% endblock %}

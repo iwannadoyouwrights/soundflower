@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>{{ album.name }}</h1>
+    {% for song in album.song_set.all() %}
+        <h5>{{ song.name }}</h5>
+        <audio controls>
+            <source src="/{{ song.file.url }}" type="audio/mpeg">
+            Тег audio не поддерживается вашим браузером.
+        </audio>
+    {% endfor %}
+{% endblock %}
