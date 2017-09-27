@@ -16,7 +16,7 @@
           <li><a href={{ url('registration_register') }}>Регистрация</a></li>
           <li><a href={{ url('auth_login') }}>Вход</a></li>
         {% else %}
-          <p class="navbar-text">{{ request.user }}</p>
+          <p class="navbar-text">{{ request.user.first_name }}</p>
           <li><a href={{ url('auth_logout') }}>Выйти</a></li>
         {% endif %}
       </ul>
