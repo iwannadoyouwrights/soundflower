@@ -1,136 +1,133 @@
-{% extends 'main/base.html' %}
-
-{% block head %}
-    <link rel="stylesheet" href="{{ static('main/musician_profile_styles.css') }}"/>
-    <script src="{{ static('main/musician_profile_ajax.js') }}"></script>
-{% endblock %}
-
-{% block body %}
-    <div class="main_wrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <img src="/{{ Musician_project.avatar.url }}" class="img-thumbnail profile-avatar">
-                </div>
-                <div class="col-md-10">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h1>{{ Musician_project.name }}</h1>
-                            <button name="subscribe" class="btn_subs btn" type="submit">{{ subs }}</button>
-                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                            <input type="hidden" name="sub_check" value="yes">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row description">
-                <div class="col-md-10 col-md-offset-2">
-                    <p>Дата создания : {{ Musician_project.create_date }}</p>
-                    <p>Город : {{ Musician_project.city_from_created }}</p>
-                    <p>Жанр : {{ Musician_project.genre }}</p>
-                </div>
-            </div>
-
-            <div class="row feed">
-                <div class="col-md-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Participants</div>
-                        <div class="panel-body">
-                            <ul class="list-group">
-
-                                {% for foo in Musician_project.musician_set.all() %}
-                                    <li class="list-group-item">
-                                        <div class="row">
-                                            {% if foo.project.avatar %}
-
-                                                <div class="project-avatar col-md-6">
-                                                    <img src="/{{ foo.petal.avatar.url }}"
-                                                         class="img-rounded project-avatar">
-                                                </div>
-                                            {% endif %}
-                                            <div class="project-description col-md-6">
-                                                <a href="
-                                                        {{ url('petal_info', args=[foo.petal.id]) }}"> {{ foo.first_name }}</a><br>
-                                                <div> {{ foo.role }} </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                {% endfor %}
-
-
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Subscriptions</div>
-                        <div class="panel-body">
-                            <ul class=" subs list-group">
-                                {% for foo in Musician_project.subscriptions_petals.all() %}
-                                    <li class="list-group-item">{{ foo.first_name }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-10">
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading"> Albums
-                        </div>
-                        <div class="panel-body">
-                            {% for inf in Musician_project.musicalbum_set.all() %}
-                                <div class="row">
-                                    <div class="col-sm-6 col-md-4">
-                                        <div class="thumbnail">
-                                            <img src="/{{ inf.image.url }}">
-                                            <div class="caption">
-                                                <a href="{{ url('album', args=[Musician_project.id,inf.id]) }}">
-                                                    <h3>{{ inf.name }}</h3></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading"> Singles
-                        </div>
-                        <div class="panel-body"></div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    NewsFeed
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="btn-group btn-group-xs">
-                                        <button type="button" class="btn btn-default">News</button>
-                                        <button type="button" class="btn btn-default">Music</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="list-group">
-                                {% for foo in Musician_project.news_set.all().order_by('create_date') %}
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">{{ foo.title }}</div>
-                                        <div class="panel-footer">{{ foo.content }}</div>
-                                    </div>
-
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+{% extends 'main/base.html' %} {% block head %}
+<link rel="stylesheet" href="{{ static('main/musician_profile_styles.css') }}" />
+<script src="{{ static('main/musician_profile_ajax.js') }}"></script>
+{% endblock %} {% block body %}
+<div class="main_wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        {% if Musician_project.avatar %}
+        <img src="/{{ Musician_project.avatar.url }}" class="img-thumbnail profile-avatar"> {% endif %}
+      </div>
+      <div class="col-md-10">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h1>{{ Musician_project.name }}</h1>
+            <button name="subscribe" class="btn_subs btn" type="submit">{{ subs }}</button>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="sub_check" value="yes">
+          </div>
         </div>
+      </div>
     </div>
+    <div class="row description">
+      <div class="col-md-10 col-md-offset-2">
+        <p>Дата создания : {{ Musician_project.create_date }}</p>
+        <p>Город : {{ Musician_project.city_from_created }}</p>
+        <p>Жанр : {{ Musician_project.genre }}</p>
+      </div>
+    </div>
+
+    <div class="row feed">
+      <div class="col-md-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">Participants</div>
+          <div class="panel-body">
+            <ul class="list-group">
+
+              {% for foo in Musician_project.musician_set.all() %}
+              <li class="list-group-item">
+                <div class="row">
+                  {% if foo.project.avatar %}
+
+                  <div class="project-avatar col-md-6">
+                    <img src="/{{ foo.petal.avatar.url }}" class="img-rounded project-avatar">
+                  </div>
+                  {% endif %}
+                  <div class="project-description col-md-6">
+                    <a href="
+                                                        {{ url('petal_info', args=[foo.petal.id]) }}"> {{ foo.first_name }}</a><br>
+                    <div> {{ foo.role }} </div>
+                  </div>
+                </div>
+              </li>
+              {% endfor %}
+
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Subscriptions</div>
+          <div class="panel-body">
+            <ul class=" subs list-group">
+              {% for foo in Musician_project.subscriptions_petals.all() %}
+              <li class="list-group-item">{{ foo.first_name }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+
+        <div class="panel panel-default">
+          <div class="panel-heading"> Albums
+          </div>
+          <div class="panel-body">
+            {% for inf in Musician_project.musicalbum_set.all() %}
+            <div class="row">
+              <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                  {% if inf.image %}
+                  <img src="/{{ inf.image.url }}"> {% endif %}
+                  <div class="caption">
+                    <a href="{{ url('album', args=[Musician_project.id,inf.id]) }}">
+                      <h3>{{ inf.name }}</h3></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading"> Singles
+          </div>
+          <div class="panel-body"></div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-md-10">
+                NewsFeed
+              </div>
+              <div class="col-md-2">
+                <div class="btn-group btn-group-xs">
+                  <button type="button" class="btn btn-default">News</button>
+                  <button type="button" class="btn btn-default">Music</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <ul class="list-group">
+              {% for foo in Musician_project.news_set.all().order_by('create_date') %}
+              <div class="panel panel-default">
+                <div class="panel-body">{{ foo.title }}</div>
+                <div class="panel-footer">{{ foo.content }}</div>
+              </div>
+
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 {% endblock %}
