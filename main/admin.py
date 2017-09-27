@@ -19,6 +19,7 @@ class MusicianProjectAdmin(admin.ModelAdmin):
 class PetalAdmin(admin.ModelAdmin):
     inlines = [InlineMusician]
 
+
 admin.site.register(Role)
 admin.site.register(Musician)
 admin.site.register(News)

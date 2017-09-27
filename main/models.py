@@ -5,19 +5,23 @@ from django.db import models
 
 # Create your models here.
 class Petal(AbstractUser):
-    subscriptions = models.ManyToManyField('MusicianProject', related_name='subscriptions_petals', blank=True)
-    avatar = models.ImageField(upload_to='petal_avatar/', null=True, blank=True)
+    subscriptions = models.ManyToManyField(
+        'MusicianProject', related_name='subscriptions_petals', blank=True)
+    avatar = models.ImageField(
+        upload_to='petal_avatar/', null=True, blank=True)
     second_name = models.CharField(max_length=255, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     birth_country = models.CharField(max_length=255, null=True, blank=True)
     birth_city = models.CharField(max_length=255, null=True, blank=True)
-    country_of_residence = models.CharField(max_length=255, null=True, blank=True)
+    country_of_residence = models.CharField(
+        max_length=255, null=True, blank=True)
     city_of_residence = models.CharField(max_length=255, null=True, blank=True)
 
 
 class MusicianProject(models.Model):
     creator_project = models.ForeignKey(Petal, related_name='mu')
-    avatar = models.ImageField(upload_to='musician_project_avatar/', null=True, blank=True)
+    avatar = models.ImageField(
+        upload_to='musician_project_avatar/', null=True, blank=True)
     name = models.CharField(max_length=255)
     create_date = models.DateField(null=True, blank=True)
     city_from_created = models.CharField(max_length=255, null=True, blank=True)
@@ -47,7 +51,8 @@ class Role(models.Model):
 class Musician(models.Model):
     project = models.ForeignKey(MusicianProject)
     petal = models.ForeignKey(Petal, null=True, blank=True)
-    avatar = models.ImageField(upload_to='musician_avatar/', null=True, blank=True)
+    avatar = models.ImageField(
+        upload_to='musician_avatar/', null=True, blank=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     role = models.ForeignKey(Role)
@@ -62,7 +67,7 @@ class MusicAlbum(models.Model):
     artist = models.ForeignKey(MusicianProject)
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to=image_dir, null=True, blank=True,
-                              default=image_dir+'default.jpg')
+                              default=image_dir + 'default.jpg')
     date = models.DateTimeField(auto_now_add=True)
 
 
@@ -70,5 +75,3 @@ class Song(models.Model):
     album = models.ForeignKey(MusicAlbum)
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to='songs/')
-
-
